@@ -67,7 +67,7 @@ values ('px12xxx123',ARRAY['wood', 'carpet', 'tiles']),
 	   ('pj12jjj123', ARRAY[ 'carpet', 'tiles']);
 	   
 
-insert into public.partner_rating (partner_id,rating)
+insert into public.partner_rating (partner_id,avg)
 values ('px12xxx123',4),
 	   ('py12yyy123',10),
 	   ('pz12zzz123',7),

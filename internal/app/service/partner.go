@@ -90,7 +90,10 @@ func (s *partner) toDomain(p *entity.Partner) domain.Partner {
 			Lat:  p.Loc.Lat,
 			Long: p.Loc.Long,
 		},
-		Radius: p.Radius,
+		Radius: domain.Measure{
+			Value:  float32(p.Radius),
+			Metric: metricDistanceKM,
+		},
 	}
 }
 

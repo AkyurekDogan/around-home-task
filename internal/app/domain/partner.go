@@ -9,7 +9,7 @@ type Partner struct {
 	Id      string         `json:"id"`
 	Name    string         `json:"name"`
 	Loc     Location       `json:"location"`
-	Radius  int            `json:"radius"`
+	Radius  Measure        `json:"radius"`
 	PRating *PartnerRating `json:"partner_rating"`
 	PSkills *PartnerSkill  `json:"partner_skill"`
 }
