@@ -14,9 +14,14 @@ type Partner struct {
 	PSkills *PartnerSkill  `json:"partner_skill"`
 }
 
+type Rating struct {
+	Value  float32 `json:"value"`
+	Method string  `json:"method"`
+}
+
 // Rating represents the partner ratings data
 type PartnerRating struct {
-	Rating int `json:"rating"`
+	Rating Rating `json:"ratings"`
 }
 
 // PartnerSkill represents the partner skills data

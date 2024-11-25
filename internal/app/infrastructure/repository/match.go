@@ -47,7 +47,7 @@ func (u *match) Get(filter entity.MatchFilter) (entity.MatchList, error) {
 				p."location",
 				ST_SetSRID(ST_MakePoint($1, $2), 4326)::GEOGRAPHY
 			) AS distance,
-			pr.rating,
+			pr.avg,
 			ps.craftsmanship_tags
 		from public.partner p
 		inner join public.partner_skill ps on ps.partner_id = p.id
@@ -57,7 +57,7 @@ func (u *match) Get(filter entity.MatchFilter) (entity.MatchList, error) {
 			ST_SetSRID(ST_MakePoint($3, $4), 4326)::GEOGRAPHY,
 			p.radius*1000
 		) and ps.craftsmanship_tags @> $5
-		order by pr.rating desc, distance asc
+		order by pr.avg desc, distance asc
 	`, filter.Loc.Lat, filter.Loc.Long, filter.Loc.Lat, filter.Loc.Long, convertToQueryArrayParameter(filter.MaterialType))
 	if err != nil {
 		return nil, err
