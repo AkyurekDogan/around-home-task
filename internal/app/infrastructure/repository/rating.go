@@ -12,7 +12,7 @@ import (
 
 // PartnerRating represents the repository access layer for partner ratings
 type PartnerRating interface {
-	Get(f entity.Filter) (*entity.PartnerRating, error)
+	Get(f entity.Filter) (*entity.Rating, error)
 }
 
 type partnerRating struct {
@@ -27,22 +27,21 @@ func NewPartnerRating(driverR drivers.Driver) PartnerRating {
 }
 
 // Get gets the partner skill data
-func (u *partnerRating) Get(f entity.Filter) (*entity.PartnerRating, error) {
+func (u *partnerRating) Get(f entity.Filter) (*entity.Rating, error) {
 	db, err := u.driverRead.Init()
 	if err != nil {
 		return nil, err
 	}
 	defer db.Close()
-	var result entity.PartnerRating
+	var result entity.Rating
 	// Execute a SELECT query
 	err = db.QueryRow(`
 		select
 			p.partner_id,
-			p.avg,
-			'AVG' as method
+			p.avg
 		from public.partner_rating p
 		where partner_id=$1
-	`, f.PartnerId).Scan(&result.PartnerId, &result.Rating.Value, &result.Rating.Method)
+	`, f.PartnerId).Scan(&result.PartnerId, &result.ValueAVG)
 	if err != nil {
 		// Check for no rows found or other errors
 		if err == sql.ErrNoRows {

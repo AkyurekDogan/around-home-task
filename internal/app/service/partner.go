@@ -67,7 +67,7 @@ func (s *partner) getPartnerSkills(p *domain.Partner, f domain.Filter) error {
 			return err
 		}
 	}
-	p.PSkills = skill
+	p.Skills = skill
 
 	return nil
 }
@@ -79,7 +79,7 @@ func (s *partner) getPartnerRating(p *domain.Partner, f domain.Filter) error {
 			return err
 		}
 	}
-	p.PRating = rating
+	p.Rating = rating
 	return nil
 }
 func (s *partner) toDomain(p *entity.Partner) domain.Partner {

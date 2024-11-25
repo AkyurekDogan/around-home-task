@@ -11,7 +11,7 @@ import (
 
 // PartnerRating interface provides partner rating methods
 type PartnerRating interface {
-	Get(filter domain.Filter) (*domain.PartnerRating, error)
+	Get(filter domain.Filter) (*domain.Rating, error)
 }
 
 type partnerRating struct {
@@ -26,7 +26,7 @@ func NewPartnerRating(repoPartnerRating repository.PartnerRating) PartnerRating 
 }
 
 // Get returns the relavent partner rating data by filter
-func (s *partnerRating) Get(filter domain.Filter) (*domain.PartnerRating, error) {
+func (s *partnerRating) Get(filter domain.Filter) (*domain.Rating, error) {
 	eFilter := s.toEntityFilter(filter)
 	partnerRating, err := s.dbPartnerRating.Get(eFilter)
 	if err != nil {
@@ -36,14 +36,9 @@ func (s *partnerRating) Get(filter domain.Filter) (*domain.PartnerRating, error)
 	return &result, nil
 }
 
-func (s *partnerRating) toDomain(pr entity.PartnerRating) domain.PartnerRating {
-	return domain.PartnerRating{
-		Ratings: domain.Ratings{
-			domain.Rating{
-				Value:  float32(pr.Rating.Value),
-				Method: pr.Rating.Method,
-			},
-		},
+func (s *partnerRating) toDomain(pr entity.Rating) domain.Rating {
+	return domain.Rating{
+		ValueAVG: pr.ValueAVG,
 	}
 }
 

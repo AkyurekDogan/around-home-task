@@ -23,7 +23,7 @@ type Match struct {
 	Radius    Measure  `json:"radius"`
 	Distance  Measure  `json:"distance"`
 	Rating    Rating   `json:"rating"`
-	Skills    []string `json:"skills"`
+	Skills    Skill    `json:"skills"`
 	Rank      int      `json:"rank"`
 }
 

@@ -6,31 +6,18 @@ package domain
 
 // Partner represents the partner data
 type Partner struct {
-	Id      string         `json:"id"`
-	Name    string         `json:"name"`
-	Loc     Location       `json:"location"`
-	Radius  Measure        `json:"radius"`
-	PRating *PartnerRating `json:"partner_rating"`
-	PSkills *PartnerSkill  `json:"partner_skill"`
+	Id     string   `json:"id"`
+	Name   string   `json:"name"`
+	Loc    Location `json:"location"`
+	Radius Measure  `json:"radius"`
+	Rating *Rating  `json:"rating"`
+	Skills *Skill   `json:"skills"`
 }
 
 type Rating struct {
-	Value  float32 `json:"value"`
-	Method string  `json:"method"`
+	ValueAVG int `json:"value_avg"`
 }
-
-// Ratings keeps the list of rating
-type Ratings []Rating
-
-// Rating represents the partner ratings data
-type PartnerRating struct {
-	Ratings Ratings `json:"ratings"`
-}
-
-// PartnerSkill represents the partner skills data
-type PartnerSkill struct {
-	Skill []string `json:"skills"`
-}
+type Skill []string
 
 // Partners represents the partners data
 type Partners []Partner

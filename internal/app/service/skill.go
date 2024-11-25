@@ -11,7 +11,7 @@ import (
 
 // PartnerSkill interface provides partner skills methods
 type PartnerSkill interface {
-	Get(filter domain.Filter) (*domain.PartnerSkill, error)
+	Get(filter domain.Filter) (*domain.Skill, error)
 }
 
 type partnerSkill struct {
@@ -26,20 +26,18 @@ func NewPartnerSkill(repoPartnerSkill repository.PartnerSkill) PartnerSkill {
 }
 
 // Get returns the relavent partner rating data by filter
-func (s *partnerSkill) Get(filter domain.Filter) (*domain.PartnerSkill, error) {
+func (s *partnerSkill) Get(filter domain.Filter) (*domain.Skill, error) {
 	eFilter := s.toEntityFilter(filter)
-	partnerRating, err := s.dbPartnerSkill.Get(eFilter)
+	partnerSkill, err := s.dbPartnerSkill.Get(eFilter)
 	if err != nil {
 		return nil, err
 	}
-	result := s.toDomain(*partnerRating)
+	result := s.toDomain(*partnerSkill)
 	return &result, nil
 }
 
-func (s *partnerSkill) toDomain(pr entity.PartnerSkill) domain.PartnerSkill {
-	return domain.PartnerSkill{
-		Skill: pr.Skills,
-	}
+func (s *partnerSkill) toDomain(pr entity.Skill) domain.Skill {
+	return pr.Skills
 }
 
 func (s *partnerSkill) toEntityFilter(p domain.Filter) entity.Filter {

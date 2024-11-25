@@ -11,19 +11,14 @@ type Partner struct {
 	Radius int
 }
 
+// Rating represents the partner ratings data
 type Rating struct {
-	Value  int
-	Method string
-}
-
-// PartnerRating represents the partner ratings data
-type PartnerRating struct {
 	PartnerId string
-	Rating    Rating
+	ValueAVG  int
 }
 
-// PartnerSkill represents the partner skills data
-type PartnerSkill struct {
+// Skill represents the partner skills data
+type Skill struct {
 	PartnerId string
 	Skills    []string
 }

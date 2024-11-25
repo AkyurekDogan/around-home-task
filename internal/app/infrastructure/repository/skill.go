@@ -13,7 +13,7 @@ import (
 
 // PartnerSkill represents the repository access layer for partner
 type PartnerSkill interface {
-	Get(f entity.Filter) (*entity.PartnerSkill, error)
+	Get(f entity.Filter) (*entity.Skill, error)
 }
 
 type partnerSkill struct {
@@ -28,13 +28,13 @@ func NewPartnerSkill(driverR drivers.Driver) PartnerSkill {
 }
 
 // Get gets the partner skill data
-func (u *partnerSkill) Get(f entity.Filter) (*entity.PartnerSkill, error) {
+func (u *partnerSkill) Get(f entity.Filter) (*entity.Skill, error) {
 	db, err := u.driverRead.Init()
 	if err != nil {
 		return nil, err
 	}
 	defer db.Close()
-	var result entity.PartnerSkill
+	var result entity.Skill
 	// Execute a SELECT query
 	err = db.QueryRow(`
 		select
