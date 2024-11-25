@@ -38,9 +38,11 @@ func (s *partnerRating) Get(filter domain.Filter) (*domain.PartnerRating, error)
 
 func (s *partnerRating) toDomain(pr entity.PartnerRating) domain.PartnerRating {
 	return domain.PartnerRating{
-		Rating: domain.Rating{
-			Value:  float32(pr.Rating.Value),
-			Method: pr.Rating.Method,
+		Ratings: domain.Ratings{
+			domain.Rating{
+				Value:  float32(pr.Rating.Value),
+				Method: pr.Rating.Method,
+			},
 		},
 	}
 }

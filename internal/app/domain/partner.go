@@ -19,9 +19,12 @@ type Rating struct {
 	Method string  `json:"method"`
 }
 
+// Ratings keeps the list of rating
+type Ratings []Rating
+
 // Rating represents the partner ratings data
 type PartnerRating struct {
-	Rating Rating `json:"ratings"`
+	Ratings Ratings `json:"ratings"`
 }
 
 // PartnerSkill represents the partner skills data

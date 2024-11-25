@@ -81,9 +81,9 @@ func (s *match) toDomainMatch(m entity.Match) domain.Match {
 			Value:  float32(math.Round((m.Distance/1000)*100) / 100), // convert to km and round to 2 gidits
 			Metric: metricDistanceKM,
 		},
-		Rating: domain.Measure{
+		Rating: domain.Rating{
 			Value:  float32(m.Rating),
-			Metric: metricCalcualtionAVG,
+			Method: metricCalcualtionAVG,
 		},
 		Skills: m.Skills,
 		Rank:   m.Rank,
