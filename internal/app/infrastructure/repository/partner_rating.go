@@ -38,9 +38,9 @@ func (u *partnerRating) Get(f entity.Filter) (*entity.PartnerRating, error) {
 	err = db.QueryRow(`
 		select
 			p.partner_id,
-			p.rating,
+			p.rating
 		from public.partner_rating p
-		where partner_id=$s
+		where partner_id=$1
 	`, f.PartnerId).Scan(&result.PartnerId, &result.Rating)
 	if err != nil {
 		// Check for no rows found or other errors

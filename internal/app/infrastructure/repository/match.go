@@ -4,8 +4,13 @@ Repository package for data access
 package repository
 
 import (
+	"encoding/json"
+	"log"
+	"strings"
+
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/drivers"
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/entity"
+	"github.com/lib/pq"
 )
 
 // Match represents the usage database interface
@@ -33,17 +38,27 @@ func (u *match) Get(filter entity.MatchFilter) (entity.MatchList, error) {
 	// Execute a SELECT query
 	rows, err := db.Query(`
 		select
-			u.instance_id,
-			u.sku,
-			u.start_time,
-			u.end_time,
-			u.unit_size
-		from public.usage u
-		where u.start_time >= $1
-			and u.end_time <= $2
-		order by u.instance_id
-		limit $3 offset $4
-	`, filter.Loc.Lat, filter.Loc.Long, filter.MaterialType, filter.MaterialType) // #TODO fix it
+			p.id,
+			p.name,
+			ST_X(p."location"::geometry) as lat,
+			ST_Y(p."location"::geometry) as long,
+			p.radius,
+			ST_Distance(
+				p."location",
+				ST_SetSRID(ST_MakePoint($1, $2), 4326)::GEOGRAPHY
+			) AS distance,
+			pr.rating,
+			ps.craftsmanship_tags
+		from public.partner p
+		inner join public.partner_skill ps on ps.partner_id = p.id
+		left join public.partner_rating pr on pr.partner_id = p.id 
+		where ST_DWithin(
+			p."location",            
+			ST_SetSRID(ST_MakePoint($3, $4), 4326)::GEOGRAPHY,
+			p.radius*1000
+		) and ps.craftsmanship_tags @> $5
+		order by pr.rating desc, distance asc
+	`, filter.Loc.Lat, filter.Loc.Long, filter.Loc.Lat, filter.Loc.Long, convertToQueryArrayParameter(filter.MaterialType))
 	if err != nil {
 		return nil, err
 	}
@@ -52,13 +67,16 @@ func (u *match) Get(filter entity.MatchFilter) (entity.MatchList, error) {
 
 	var result entity.MatchList
 	// Iterate through the result set
+	i := 1
 	for rows.Next() {
 		item := entity.Match{}
-		err := rows.Scan(&item.PartnerId, &item.Name, &item.Distance, &item.Loc, &item.Rank)
+		err := rows.Scan(&item.PartnerId, &item.Name, &item.Loc.Lat, &item.Loc.Long, &item.Radius, &item.Distance, &item.Rating, pq.Array(&item.Skills))
+		item.Rank = i
 		if err != nil {
 			return nil, err
 		}
 		result = append(result, item)
+		i++
 	}
 	// Check for errors from iterating over rows
 	err = rows.Err()
@@ -66,4 +84,13 @@ func (u *match) Get(filter entity.MatchFilter) (entity.MatchList, error) {
 		return nil, err
 	}
 	return result, nil
+}
+
+func convertToQueryArrayParameter(param string) string {
+	// Convert the parameter to JSON
+	jsonParam, err := json.Marshal([]string{param})
+	if err != nil {
+		log.Fatal(err)
+	}
+	return strings.ReplaceAll(strings.ReplaceAll(string(jsonParam), "[", "{"), "]", "}")
 }

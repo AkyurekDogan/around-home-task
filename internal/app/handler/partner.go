@@ -4,6 +4,7 @@ The Handler package to manage the request-response pipeline handlers
 package handler
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/AkyurekDogan/around-home-task/internal/app/domain"
@@ -42,6 +43,10 @@ func (s *partner) Get(w http.ResponseWriter, r *http.Request) {
 	}
 	result, err := s.partnerService.Get(*filter)
 	if err != nil {
+		if errors.Is(err, service.ErrNoPartner) {
+			s.WriteErrorRespone(w, http.StatusBadRequest, "invalid parameters are provided", err)
+			return
+		}
 		s.WriteErrorRespone(w, http.StatusInternalServerError, "internal server error", err)
 		return
 	}

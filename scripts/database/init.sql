@@ -88,3 +88,5 @@ values ('px12xxx123',4),
 	   ('ph12hhh123',9),
 	   ('pi12iii123',8),
 	   ('pj12jjj123', 10);
+
+CREATE INDEX idx_partner_location ON public.partner USING GIST (location);

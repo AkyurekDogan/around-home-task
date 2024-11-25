@@ -44,11 +44,12 @@ func (u *partner) Get(f entity.Filter) (*entity.Partner, error) {
 		select
 			p.id,
 			p.name,
-			p.location,
-			p.radius,
+			ST_X(location::geometry) as lat,
+			ST_Y(location::geometry) as long,
+			p.radius
 		from public.partner p
-		where id=$s
-	`, f.PartnerId).Scan(&result.Id, &result.Name, &result.Loc, &result.Radius)
+		where id=$1
+	`, f.PartnerId).Scan(&result.Id, &result.Name, &result.Loc.Lat, &result.Loc.Long, &result.Radius)
 	if err != nil {
 		// Check for no rows found or other errors
 		if err == sql.ErrNoRows {

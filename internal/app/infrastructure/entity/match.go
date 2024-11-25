@@ -14,8 +14,11 @@ type Match struct {
 	PartnerId string
 	Name      string
 	Loc       Location
+	Radius    int
+	Distance  float64
+	Rating    int
+	Skills    []string
 	Rank      int
-	Distance  int
 }
 
 // MatchList represents the match data collection as list

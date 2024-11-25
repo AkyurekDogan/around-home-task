@@ -4,9 +4,16 @@ Service package handles the services for business logic and data processing
 package service
 
 import (
+	"math"
+
 	"github.com/AkyurekDogan/around-home-task/internal/app/domain"
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/entity"
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/repository"
+)
+
+const (
+	metricDistanceKM     = "km"
+	metricCalcualtionAVG = "avg"
 )
 
 // Match interface provides methods for matching partner-customer
@@ -66,6 +73,19 @@ func (s *match) toDomainMatch(m entity.Match) domain.Match {
 			Lat:  m.Loc.Lat,
 			Long: m.Loc.Long,
 		},
-		Rank: m.Rank,
+		Radius: domain.Measure{
+			Value:  float32(m.Radius),
+			Metric: metricDistanceKM,
+		},
+		Distance: domain.Measure{
+			Value:  float32(math.Round((m.Distance/1000)*100) / 100), // convert to km and round to 2 gidits
+			Metric: metricDistanceKM,
+		},
+		Rating: domain.Measure{
+			Value:  float32(m.Rating),
+			Metric: metricCalcualtionAVG,
+		},
+		Skills: m.Skills,
+		Rank:   m.Rank,
 	}
 }

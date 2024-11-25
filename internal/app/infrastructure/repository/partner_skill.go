@@ -8,6 +8,7 @@ import (
 
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/drivers"
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/entity"
+	"github.com/lib/pq"
 )
 
 // PartnerSkill represents the repository access layer for partner
@@ -38,10 +39,10 @@ func (u *partnerSkill) Get(f entity.Filter) (*entity.PartnerSkill, error) {
 	err = db.QueryRow(`
 		select
 			p.partner_id,
-			p.craftsmandhips_tags,
+			p.craftsmanship_tags
 		from public.partner_skill p
-		where partner_id=$s
-	`, f.PartnerId).Scan(&result.PartnerId, &result.Skills)
+		where partner_id=$1
+	`, f.PartnerId).Scan(&result.PartnerId, pq.Array(&result.Skills))
 	if err != nil {
 		// Check for no rows found or other errors
 		if err == sql.ErrNoRows {

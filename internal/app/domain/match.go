@@ -10,11 +10,20 @@ type Location struct {
 	Long float64 `json:"long"`
 }
 
+type Measure struct {
+	Value  float32 `json:"value"`
+	Metric string  `json:"metric"`
+}
+
 // Match struct for cost data
 type Match struct {
 	PartnerId string   `json:"partner_id"`
 	Name      string   `json:"name"`
 	Loc       Location `json:"location"`
+	Radius    Measure  `json:"radius"`
+	Distance  Measure  `json:"distance"`
+	Rating    Measure  `json:"rating"`
+	Skills    []string `json:"skills"`
 	Rank      int      `json:"rank"`
 }
 

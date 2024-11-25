@@ -13,7 +13,7 @@ import (
 
 // Filter filters the cost details
 type Filter struct {
-	PartnerId string `json:"partner_id"`
+	PartnerId string `json:"id"`
 }
 
 // NewFilter initialize new filter from requested parameters
@@ -21,7 +21,7 @@ func NewFilter(r *http.Request) (*Filter, error) {
 	var f Filter
 	// get query parameters
 	params := r.URL.Query()
-	pPartnerId := params.Get("partner_id")
+	pPartnerId := params.Get("id")
 	f.PartnerId = pPartnerId
 	return &f, nil
 }

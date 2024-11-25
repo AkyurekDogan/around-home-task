@@ -80,7 +80,7 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(middlewares.AddHeaderMiddleware())
 	// Define the endpoints
-	r.Post("/match", handlerMatch.Get)
+	r.Get("/match", handlerMatch.Get)
 	r.Get("/partner", handlerPartner.Get)
 	// Start the HTTP server
 	err = http.ListenAndServe(config.Server.Host, r)
