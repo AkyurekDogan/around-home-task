@@ -14,9 +14,12 @@ type Partner struct {
 	Skills *Skill   `json:"skills"`
 }
 
+// Rating represents the rating data
 type Rating struct {
 	ValueAVG int `json:"value_avg"`
 }
+
+// Skill represents the partner skills data
 type Skill []string
 
 // Partners represents the partners data

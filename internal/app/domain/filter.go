@@ -26,7 +26,7 @@ func NewFilter(r *http.Request) (*Filter, error) {
 	return &f, nil
 }
 
-// Filter checks the filter field validations
+// CheckFilter checks the filter field validations
 func (f *Filter) CheckFilter() error {
 	var valErrors []error
 	if f.PartnerId == "" {
@@ -44,7 +44,7 @@ type MatchFilter struct {
 	Loc          Location `json:"location"`
 }
 
-// NewFilter initialize new filter from requested parameters
+// NewMatchFilter initialize new filter from requested parameters
 func NewMatchFilter(r *http.Request) (*MatchFilter, error) {
 	var f MatchFilter
 	var errs []error

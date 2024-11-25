@@ -6,20 +6,20 @@ CREATE TABLE public.partner (
 	CONSTRAINT partner_pk PRIMARY KEY (id)
 );
 
-CREATE TABLE public.partner_rating (
+CREATE TABLE public.rating (
 	partner_id varchar(10) NOT NULL,
-	rating int4 NOT NULL
+	avg int4 NOT NULL
 );
 
-ALTER TABLE public.partner_rating ADD CONSTRAINT partner_rating_partner_fk FOREIGN KEY (partner_id) REFERENCES public.partner(id);
+ALTER TABLE public.rating ADD CONSTRAINT rating_partner_fk FOREIGN KEY (partner_id) REFERENCES public.partner(id);
 
 
-CREATE TABLE public.partner_skill (
+CREATE TABLE public.skill (
 	partner_id varchar(10) NOT NULL,
 	craftsmanship_tags _text NOT NULL
 );
 
-ALTER TABLE public.partner_skill ADD CONSTRAINT partner_skill_partner_fk FOREIGN KEY (partner_id) REFERENCES public.partner(id);
+ALTER TABLE public.skill ADD CONSTRAINT skill_partner_fk FOREIGN KEY (partner_id) REFERENCES public.partner(id);
 
 insert into public.partner (id,"name","location",radius) 
 values ('px12xxx123','X Engineering - Gesundrunen/Berlin', ST_SetSRID(ST_MakePoint(52.550385, 13.380968), 4326), 20),
@@ -44,7 +44,7 @@ values ('px12xxx123','X Engineering - Gesundrunen/Berlin', ST_SetSRID(ST_MakePoi
        ('pj12jjj123','J Engineering - Frankfurt Oder/Brendenburg',ST_SetSRID(ST_MakePoint(52.308907, 14.519605), 4326), 70);
        
 
-insert into public.partner_skill (partner_id,craftsmanship_tags)
+insert into public.skill (partner_id,craftsmanship_tags)
 values ('px12xxx123',ARRAY['wood', 'carpet', 'tiles']),
 	   ('py12yyy123',ARRAY['wood', 'tiles']),
 	   ('pz12zzz123',ARRAY['wood', 'tiles']),
@@ -67,7 +67,7 @@ values ('px12xxx123',ARRAY['wood', 'carpet', 'tiles']),
 	   ('pj12jjj123', ARRAY[ 'carpet', 'tiles']);
 	   
 
-insert into public.partner_rating (partner_id,avg)
+insert into public.rating (partner_id,avg)
 values ('px12xxx123',4),
 	   ('py12yyy123',10),
 	   ('pz12zzz123',7),

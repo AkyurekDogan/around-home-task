@@ -50,8 +50,8 @@ func (u *match) Get(filter entity.MatchFilter) (entity.MatchList, error) {
 			pr.avg,
 			ps.craftsmanship_tags
 		from public.partner p
-		inner join public.partner_skill ps on ps.partner_id = p.id
-		left join public.partner_rating pr on pr.partner_id = p.id 
+		inner join public.skill ps on ps.partner_id = p.id
+		left join public.rating pr on pr.partner_id = p.id 
 		where ST_DWithin(
 			p."location",            
 			ST_SetSRID(ST_MakePoint($3, $4), 4326)::GEOGRAPHY,

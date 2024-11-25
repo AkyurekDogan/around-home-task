@@ -41,8 +41,8 @@ func (s *match) Find(filter domain.MatchFilter) (*domain.MatchListResponse, erro
 	}
 	domData := s.toDomainMatchList(data)
 	result := domain.MatchListResponse{
-		Filter: filter,
-		Data:   domData,
+		Filter:  filter,
+		Matches: domData,
 	}
 	return &result, nil
 }

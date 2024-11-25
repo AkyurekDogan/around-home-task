@@ -40,7 +40,7 @@ func (u *partnerSkill) Get(f entity.Filter) (*entity.Skill, error) {
 		select
 			p.partner_id,
 			p.craftsmanship_tags
-		from public.partner_skill p
+		from public.skill p
 		where partner_id=$1
 	`, f.PartnerId).Scan(&result.PartnerId, pq.Array(&result.Skills))
 	if err != nil {

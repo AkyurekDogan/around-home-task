@@ -10,12 +10,13 @@ type Location struct {
 	Long float64 `json:"long"`
 }
 
+// Measure represents the measure standard data
 type Measure struct {
 	Value  float32 `json:"value"`
 	Metric string  `json:"metric"`
 }
 
-// Match struct for cost data
+// Match struct for matching data
 type Match struct {
 	PartnerId string   `json:"partner_id"`
 	Name      string   `json:"name"`
@@ -32,6 +33,6 @@ type MatchList []Match
 
 // MatchList represents the response struct that for success response
 type MatchListResponse struct {
-	Filter MatchFilter `json:"filter"`
-	Data   MatchList   `json:"data"`
+	Filter  MatchFilter `json:"filter"`
+	Matches MatchList   `json:"matches"`
 }

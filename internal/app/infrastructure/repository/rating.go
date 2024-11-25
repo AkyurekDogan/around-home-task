@@ -39,7 +39,7 @@ func (u *partnerRating) Get(f entity.Filter) (*entity.Rating, error) {
 		select
 			p.partner_id,
 			p.avg
-		from public.partner_rating p
+		from public.rating p
 		where partner_id=$1
 	`, f.PartnerId).Scan(&result.PartnerId, &result.ValueAVG)
 	if err != nil {
