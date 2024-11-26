@@ -9,13 +9,13 @@ import (
 	"strings"
 
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/drivers"
-	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/entity"
+	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/model"
 	"github.com/lib/pq"
 )
 
 // Match represents the usage database interface
 type Match interface {
-	Get(filter entity.MatchFilter) (entity.MatchList, error)
+	Get(filter model.MatchFilter) (model.MatchList, error)
 }
 
 type match struct {
@@ -30,7 +30,7 @@ func NewMatch(driverR drivers.Driver) Match {
 }
 
 // Get gets the records regarding to the filter list
-func (u *match) Get(filter entity.MatchFilter) (entity.MatchList, error) {
+func (u *match) Get(filter model.MatchFilter) (model.MatchList, error) {
 	db, err := u.driverRead.Init()
 	if err != nil {
 		return nil, err
@@ -65,11 +65,11 @@ func (u *match) Get(filter entity.MatchFilter) (entity.MatchList, error) {
 	defer db.Close()
 	defer rows.Close()
 
-	var result entity.MatchList
+	var result model.MatchList
 	// Iterate through the result set
 	i := 1
 	for rows.Next() {
-		item := entity.Match{}
+		item := model.Match{}
 		err := rows.Scan(&item.PartnerId, &item.Name, &item.Loc.Lat, &item.Loc.Long, &item.Radius, &item.Distance, &item.Rating, pq.Array(&item.Skills))
 		item.Rank = i
 		if err != nil {

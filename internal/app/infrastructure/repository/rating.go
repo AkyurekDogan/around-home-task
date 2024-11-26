@@ -7,12 +7,12 @@ import (
 	"database/sql"
 
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/drivers"
-	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/entity"
+	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/model"
 )
 
 // PartnerRating represents the repository access layer for partner ratings
 type PartnerRating interface {
-	Get(f entity.Filter) (*entity.Rating, error)
+	Get(f model.Filter) (*model.Rating, error)
 }
 
 type partnerRating struct {
@@ -27,13 +27,13 @@ func NewPartnerRating(driverR drivers.Driver) PartnerRating {
 }
 
 // Get gets the partner skill data
-func (u *partnerRating) Get(f entity.Filter) (*entity.Rating, error) {
+func (u *partnerRating) Get(f model.Filter) (*model.Rating, error) {
 	db, err := u.driverRead.Init()
 	if err != nil {
 		return nil, err
 	}
 	defer db.Close()
-	var result entity.Rating
+	var result model.Rating
 	// Execute a SELECT query
 	err = db.QueryRow(`
 		select

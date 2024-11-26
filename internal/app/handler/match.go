@@ -6,7 +6,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/AkyurekDogan/around-home-task/internal/app/domain"
+	"github.com/AkyurekDogan/around-home-task/internal/app/dto"
 	"github.com/AkyurekDogan/around-home-task/internal/app/service"
 )
 
@@ -36,13 +36,13 @@ func NewMatch(ms service.Match) Match {
 // @Param material_type query string true "selected material type"
 // @Param lat query string true "customer location as lattitute"
 // @Param long query string true "customer location as longtitute"
-// @Success 200 {object} domain.MatchListResponse "Success"
-// @Failure 400 {object} domain.Error "Bad Request"
-// @Failure 500 {object} domain.Error "Internal Server Error"
+// @Success 200 {object} dto.MatchListResponse "Success"
+// @Failure 400 {object} dto.Error "Bad Request"
+// @Failure 500 {object} dto.Error "Internal Server Error"
 // @Router /match [get]
 func (s *match) Get(w http.ResponseWriter, r *http.Request) {
 	// get query parameters
-	filter, err := domain.NewMatchFilter(r)
+	filter, err := dto.NewMatchFilter(r)
 	if err != nil {
 		s.WriteErrorRespone(w, http.StatusBadRequest, "invalid query parameters", err)
 		return

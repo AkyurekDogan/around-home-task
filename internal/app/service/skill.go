@@ -4,14 +4,14 @@ Service package handles the services for business logic and data processing
 package service
 
 import (
-	"github.com/AkyurekDogan/around-home-task/internal/app/domain"
-	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/entity"
+	"github.com/AkyurekDogan/around-home-task/internal/app/dto"
+	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/model"
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/repository"
 )
 
 // PartnerSkill interface provides partner skills methods
 type PartnerSkill interface {
-	Get(filter domain.Filter) (*domain.Skill, error)
+	Get(filter dto.Filter) (*dto.Skill, error)
 }
 
 type partnerSkill struct {
@@ -26,7 +26,7 @@ func NewPartnerSkill(repoPartnerSkill repository.PartnerSkill) PartnerSkill {
 }
 
 // Get returns the relavent partner rating data by filter
-func (s *partnerSkill) Get(filter domain.Filter) (*domain.Skill, error) {
+func (s *partnerSkill) Get(filter dto.Filter) (*dto.Skill, error) {
 	eFilter := s.toEntityFilter(filter)
 	partnerSkill, err := s.dbPartnerSkill.Get(eFilter)
 	if err != nil {
@@ -36,12 +36,12 @@ func (s *partnerSkill) Get(filter domain.Filter) (*domain.Skill, error) {
 	return &result, nil
 }
 
-func (s *partnerSkill) toDomain(pr entity.Skill) domain.Skill {
+func (s *partnerSkill) toDomain(pr model.Skill) dto.Skill {
 	return pr.Skills
 }
 
-func (s *partnerSkill) toEntityFilter(p domain.Filter) entity.Filter {
-	return entity.Filter{
+func (s *partnerSkill) toEntityFilter(p dto.Filter) model.Filter {
+	return model.Filter{
 		PartnerId: p.PartnerId,
 	}
 }

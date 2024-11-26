@@ -1,8 +1,8 @@
 /*
-The Domain package keeps the data transfer objects as http response or inputs in the http
+The dto package keeps the data transfer objects as http response or inputs in the http
 These structs cab be serialized to JSON so can be used as data transfer objects
 */
-package domain
+package dto
 
 import (
 	"errors"

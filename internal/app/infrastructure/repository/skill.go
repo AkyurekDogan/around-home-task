@@ -7,13 +7,13 @@ import (
 	"database/sql"
 
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/drivers"
-	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/entity"
+	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/model"
 	"github.com/lib/pq"
 )
 
 // PartnerSkill represents the repository access layer for partner
 type PartnerSkill interface {
-	Get(f entity.Filter) (*entity.Skill, error)
+	Get(f model.Filter) (*model.Skill, error)
 }
 
 type partnerSkill struct {
@@ -28,13 +28,13 @@ func NewPartnerSkill(driverR drivers.Driver) PartnerSkill {
 }
 
 // Get gets the partner skill data
-func (u *partnerSkill) Get(f entity.Filter) (*entity.Skill, error) {
+func (u *partnerSkill) Get(f model.Filter) (*model.Skill, error) {
 	db, err := u.driverRead.Init()
 	if err != nil {
 		return nil, err
 	}
 	defer db.Close()
-	var result entity.Skill
+	var result model.Skill
 	// Execute a SELECT query
 	err = db.QueryRow(`
 		select

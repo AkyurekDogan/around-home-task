@@ -6,8 +6,8 @@ package service
 import (
 	"errors"
 
-	"github.com/AkyurekDogan/around-home-task/internal/app/domain"
-	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/entity"
+	"github.com/AkyurekDogan/around-home-task/internal/app/dto"
+	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/model"
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/repository"
 )
 
@@ -17,7 +17,7 @@ var (
 
 // Partner interface provides price methods
 type Partner interface {
-	Get(filter domain.Filter) (*domain.Partner, error)
+	Get(filter dto.Filter) (*dto.Partner, error)
 }
 
 type partner struct {
@@ -39,7 +39,7 @@ func NewPriceService(repoPartner repository.Partner,
 }
 
 // Get returns the relavent partner data
-func (s *partner) Get(filter domain.Filter) (*domain.Partner, error) {
+func (s *partner) Get(filter dto.Filter) (*dto.Partner, error) {
 	eFilter := s.toEntityFilter(filter)
 	partner, err := s.dbPartner.Get(eFilter)
 	if err != nil {
@@ -60,7 +60,7 @@ func (s *partner) Get(filter domain.Filter) (*domain.Partner, error) {
 	return &result, nil
 }
 
-func (s *partner) getPartnerSkills(p *domain.Partner, f domain.Filter) error {
+func (s *partner) getPartnerSkills(p *dto.Partner, f dto.Filter) error {
 	skill, err := s.svcPartnerSkill.Get(f)
 	if err != nil {
 		if !errors.Is(err, repository.ErrNoRows) {
@@ -72,7 +72,7 @@ func (s *partner) getPartnerSkills(p *domain.Partner, f domain.Filter) error {
 	return nil
 }
 
-func (s *partner) getPartnerRating(p *domain.Partner, f domain.Filter) error {
+func (s *partner) getPartnerRating(p *dto.Partner, f dto.Filter) error {
 	rating, err := s.svcPartnerRating.Get(f)
 	if err != nil {
 		if !errors.Is(err, repository.ErrNoRows) {
@@ -82,23 +82,23 @@ func (s *partner) getPartnerRating(p *domain.Partner, f domain.Filter) error {
 	p.Rating = rating
 	return nil
 }
-func (s *partner) toDomain(p *entity.Partner) domain.Partner {
-	return domain.Partner{
+func (s *partner) toDomain(p *model.Partner) dto.Partner {
+	return dto.Partner{
 		Id:   p.Id,
 		Name: p.Name,
-		Loc: domain.Location{
+		Loc: dto.Location{
 			Lat:  p.Loc.Lat,
 			Long: p.Loc.Long,
 		},
-		Radius: domain.Measure{
+		Radius: dto.Measure{
 			Value:  float32(p.Radius),
 			Metric: metricDistanceKM,
 		},
 	}
 }
 
-func (s *partner) toEntityFilter(p domain.Filter) entity.Filter {
-	return entity.Filter{
+func (s *partner) toEntityFilter(p dto.Filter) model.Filter {
+	return model.Filter{
 		PartnerId: p.PartnerId,
 	}
 }

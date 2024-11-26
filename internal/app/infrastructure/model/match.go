@@ -1,7 +1,7 @@
 /*
 The Entity package for database access and compatible for relevant database
 */
-package entity
+package model
 
 // Location struct for coordinates
 type Location struct {

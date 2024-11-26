@@ -1,7 +1,7 @@
 /*
 The Entity package for database access and compatible for relevant database
 */
-package entity
+package model
 
 // Partner represents the partner data
 type Partner struct {

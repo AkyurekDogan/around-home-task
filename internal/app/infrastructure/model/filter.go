@@ -1,7 +1,7 @@
 /*
 The Entity package for database access and compatible for relevant database
 */
-package entity
+package model
 
 // Filter represents the filtering in db compatible mode
 type Filter struct {

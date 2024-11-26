@@ -2,6 +2,7 @@
 RUN_PATH="./cmd/api/main.go"
 API="cost-api"
 SWAGGER_URL="http://localhost:1989/swagger/index.html"
+PORT="1989"
 
 # Build the Go project
 build: build-clear
@@ -18,8 +19,9 @@ run-docker-compose:
 	docker-compose up
 # Run the Go project
 run:
-	go run $(RUN_PATH) & sleep 2 && open $(SWAGGER_URL)
-
+	@echo "please visit http://localhost:1989/swagger/index.html to see the swagger ui."
+	go run $(RUN_PATH)
+	
 get-coverage:
 	go test -cover -tags="!exclude_from_coverage" ./...
 

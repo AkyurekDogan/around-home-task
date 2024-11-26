@@ -7,7 +7,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/AkyurekDogan/around-home-task/internal/app/domain"
+	"github.com/AkyurekDogan/around-home-task/internal/app/dto"
 	"github.com/AkyurekDogan/around-home-task/internal/app/service"
 )
 
@@ -34,13 +34,13 @@ func NewPartner(ps service.Partner) Partner {
 // @Accept json
 // @Produce json
 // @Param id query string true "patner_id"
-// @Success 200 {object} domain.Partner "Success"
-// @Failure 400 {object} domain.Error "Bad Request"
-// @Failure 500 {object} domain.Error "Internal Server Error"
+// @Success 200 {object} dto.Partner "Success"
+// @Failure 400 {object} dto.Error "Bad Request"
+// @Failure 500 {object} dto.Error "Internal Server Error"
 // @Router /partner [get]
 func (s *partner) Get(w http.ResponseWriter, r *http.Request) {
 	// get query parameters
-	filter, err := domain.NewFilter(r)
+	filter, err := dto.NewFilter(r)
 	if err != nil {
 		s.WriteErrorRespone(w, http.StatusBadRequest, "invalid query parameters", err)
 		return

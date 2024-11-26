@@ -6,8 +6,8 @@ package service
 import (
 	"math"
 
-	"github.com/AkyurekDogan/around-home-task/internal/app/domain"
-	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/entity"
+	"github.com/AkyurekDogan/around-home-task/internal/app/dto"
+	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/model"
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/repository"
 )
 
@@ -18,7 +18,7 @@ const (
 
 // Match interface provides methods for matching partner-customer
 type Match interface {
-	Find(filter domain.MatchFilter) (*domain.MatchListResponse, error)
+	Find(filter dto.MatchFilter) (*dto.MatchListResponse, error)
 }
 
 type match struct {
@@ -33,55 +33,55 @@ func NewMatch(db repository.Match) Match {
 }
 
 // Get returns the matching records by customer filter details
-func (s *match) Find(filter domain.MatchFilter) (*domain.MatchListResponse, error) {
+func (s *match) Find(filter dto.MatchFilter) (*dto.MatchListResponse, error) {
 	flt := s.toEntityFilter(filter)
 	data, err := s.dbMatch.Get(flt)
 	if err != nil {
 		return nil, err
 	}
 	domData := s.toDomainMatchList(data)
-	result := domain.MatchListResponse{
+	result := dto.MatchListResponse{
 		Filter:  filter,
 		Matches: domData,
 	}
 	return &result, nil
 }
 
-func (s *match) toEntityFilter(filter domain.MatchFilter) entity.MatchFilter {
-	return entity.MatchFilter{
+func (s *match) toEntityFilter(filter dto.MatchFilter) model.MatchFilter {
+	return model.MatchFilter{
 		MaterialType: filter.MaterialType,
-		Loc: entity.Location{
+		Loc: model.Location{
 			Lat:  filter.Loc.Lat,
 			Long: filter.Loc.Long,
 		},
 	}
 }
 
-func (s *match) toDomainMatchList(eml entity.MatchList) domain.MatchList {
-	domML := make(domain.MatchList, 0, len(eml))
+func (s *match) toDomainMatchList(eml model.MatchList) dto.MatchList {
+	domML := make(dto.MatchList, 0, len(eml))
 	for _, v := range eml {
 		domML = append(domML, s.toDomainMatch(v))
 	}
 	return domML
 }
 
-func (s *match) toDomainMatch(m entity.Match) domain.Match {
-	return domain.Match{
+func (s *match) toDomainMatch(m model.Match) dto.Match {
+	return dto.Match{
 		PartnerId: m.PartnerId,
 		Name:      m.Name,
-		Loc: domain.Location{
+		Loc: dto.Location{
 			Lat:  m.Loc.Lat,
 			Long: m.Loc.Long,
 		},
-		Radius: domain.Measure{
+		Radius: dto.Measure{
 			Value:  float32(m.Radius),
 			Metric: metricDistanceKM,
 		},
-		Distance: domain.Measure{
+		Distance: dto.Measure{
 			Value:  float32(math.Round((m.Distance/1000)*100) / 100), // convert to km and round to 2 digits
 			Metric: metricDistanceKM,
 		},
-		Rating: domain.Rating{
+		Rating: dto.Rating{
 			ValueAVG: m.Rating,
 		},
 		Skills: m.Skills,

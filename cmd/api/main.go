@@ -8,10 +8,10 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/AkyurekDogan/around-home-task/internal/app/domain"
 	"github.com/AkyurekDogan/around-home-task/internal/app/handler"
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/drivers"
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/middlewares"
+	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/model"
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/repository"
 	"github.com/AkyurekDogan/around-home-task/internal/app/service"
 	httpSwagger "github.com/swaggo/http-swagger"
@@ -55,7 +55,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error reading configuration YAML file: %v", err)
 	}
-	var config domain.Config
+	var config model.Config
 	err = yaml.Unmarshal(yamlFile, &config)
 	if err != nil {
 		log.Fatalf("Error unmarshalling YAML file: %v", err)

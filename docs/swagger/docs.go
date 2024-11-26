@@ -58,19 +58,19 @@ const docTemplate = `{
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/domain.MatchListResponse"
+                            "$ref": "#/definitions/dto.MatchListResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/domain.Error"
+                            "$ref": "#/definitions/dto.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/domain.Error"
+                            "$ref": "#/definitions/dto.Error"
                         }
                     }
                 }
@@ -102,19 +102,19 @@ const docTemplate = `{
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/domain.Partner"
+                            "$ref": "#/definitions/dto.Partner"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/domain.Error"
+                            "$ref": "#/definitions/dto.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/domain.Error"
+                            "$ref": "#/definitions/dto.Error"
                         }
                     }
                 }
@@ -122,7 +122,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "domain.Error": {
+        "dto.Error": {
             "type": "object",
             "properties": {
                 "error": {},
@@ -134,7 +134,7 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.Location": {
+        "dto.Location": {
             "type": "object",
             "properties": {
                 "lat": {
@@ -145,14 +145,14 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.Match": {
+        "dto.Match": {
             "type": "object",
             "properties": {
                 "distance": {
-                    "$ref": "#/definitions/domain.Measure"
+                    "$ref": "#/definitions/dto.Measure"
                 },
                 "location": {
-                    "$ref": "#/definitions/domain.Location"
+                    "$ref": "#/definitions/dto.Location"
                 },
                 "name": {
                     "type": "string"
@@ -161,13 +161,13 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "radius": {
-                    "$ref": "#/definitions/domain.Measure"
+                    "$ref": "#/definitions/dto.Measure"
                 },
                 "rank": {
                     "type": "integer"
                 },
                 "rating": {
-                    "$ref": "#/definitions/domain.Rating"
+                    "$ref": "#/definitions/dto.Rating"
                 },
                 "skills": {
                     "type": "array",
@@ -177,32 +177,32 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.MatchFilter": {
+        "dto.MatchFilter": {
             "type": "object",
             "properties": {
                 "location": {
-                    "$ref": "#/definitions/domain.Location"
+                    "$ref": "#/definitions/dto.Location"
                 },
                 "material_type": {
                     "type": "string"
                 }
             }
         },
-        "domain.MatchListResponse": {
+        "dto.MatchListResponse": {
             "type": "object",
             "properties": {
                 "filter": {
-                    "$ref": "#/definitions/domain.MatchFilter"
+                    "$ref": "#/definitions/dto.MatchFilter"
                 },
                 "matches": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/domain.Match"
+                        "$ref": "#/definitions/dto.Match"
                     }
                 }
             }
         },
-        "domain.Measure": {
+        "dto.Measure": {
             "type": "object",
             "properties": {
                 "metric": {
@@ -213,23 +213,23 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.Partner": {
+        "dto.Partner": {
             "type": "object",
             "properties": {
                 "id": {
                     "type": "string"
                 },
                 "location": {
-                    "$ref": "#/definitions/domain.Location"
+                    "$ref": "#/definitions/dto.Location"
                 },
                 "name": {
                     "type": "string"
                 },
                 "radius": {
-                    "$ref": "#/definitions/domain.Measure"
+                    "$ref": "#/definitions/dto.Measure"
                 },
                 "rating": {
-                    "$ref": "#/definitions/domain.Rating"
+                    "$ref": "#/definitions/dto.Rating"
                 },
                 "skills": {
                     "type": "array",
@@ -239,7 +239,7 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.Rating": {
+        "dto.Rating": {
             "type": "object",
             "properties": {
                 "value_avg": {

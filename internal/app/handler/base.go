@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/AkyurekDogan/around-home-task/internal/app/domain"
+	"github.com/AkyurekDogan/around-home-task/internal/app/dto"
 )
 
 // Base handles the base operations for handlers
@@ -28,8 +28,8 @@ func (s *base) WriteErrorRespone(w http.ResponseWriter, status int, message stri
 	if err != nil {
 		errList = formatError(err)
 	}
-	r := domain.Error{
-		Response: domain.Response{
+	r := dto.Error{
+		Response: dto.Response{
 			StatusCode: status,
 			Message:    fmt.Sprintf("[%s] %s", http.StatusText(status), message),
 		},
@@ -42,8 +42,8 @@ func (s *base) WriteErrorRespone(w http.ResponseWriter, status int, message stri
 // WriteSuccessRespone writes a JSON error response to the client
 func (s *base) WriteSuccessRespone(w http.ResponseWriter, status int, data interface{}) {
 	w.WriteHeader(status)
-	r := domain.Success{
-		Response: domain.Response{
+	r := dto.Success{
+		Response: dto.Response{
 			StatusCode: status,
 			Message:    http.StatusText(status),
 		},

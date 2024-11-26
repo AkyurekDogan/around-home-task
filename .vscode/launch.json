@@ -9,7 +9,7 @@
             "program": "${workspaceFolder}/cmd/api/main.go",
             "cwd": "${workspaceFolder}", 
             "env": {},
-            "args": []
-        }
+            "args": [],
+        },
     ]
 }

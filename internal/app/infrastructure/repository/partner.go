@@ -8,7 +8,7 @@ import (
 	"errors"
 
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/drivers"
-	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/entity"
+	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/model"
 )
 
 var (
@@ -17,7 +17,7 @@ var (
 
 // Partner represents the repository access layer for partner
 type Partner interface {
-	Get(f entity.Filter) (*entity.Partner, error)
+	Get(f model.Filter) (*model.Partner, error)
 }
 
 type partner struct {
@@ -32,13 +32,13 @@ func NewPartner(driverR drivers.Driver) Partner {
 }
 
 // Get gets the partner data
-func (u *partner) Get(f entity.Filter) (*entity.Partner, error) {
+func (u *partner) Get(f model.Filter) (*model.Partner, error) {
 	db, err := u.driverRead.Init()
 	if err != nil {
 		return nil, err
 	}
 	defer db.Close()
-	var result entity.Partner
+	var result model.Partner
 	// Execute a SELECT query
 	err = db.QueryRow(`
 		select
