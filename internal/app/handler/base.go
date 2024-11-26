@@ -8,19 +8,14 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+
+	"github.com/AkyurekDogan/around-home-task/internal/app/domain"
 )
 
 // Base handles the base operations for handlers
 type Base interface {
 	WriteSuccessRespone(w http.ResponseWriter, status int, data interface{})
 	WriteErrorRespone(w http.ResponseWriter, status int, message string, err error)
-}
-
-type httpResponse struct {
-	StatusCode int    `json:"status_code,omitempty"`
-	Message    string `json:"message,omitempty"`
-	Data       any    `json:"data,omitempty"`
-	Error      any    `json:"error,omitempty"`
 }
 
 type base struct {
@@ -33,10 +28,12 @@ func (s *base) WriteErrorRespone(w http.ResponseWriter, status int, message stri
 	if err != nil {
 		errList = formatError(err)
 	}
-	r := httpResponse{
-		StatusCode: status,
-		Message:    fmt.Sprintf("[%s] %s", http.StatusText(status), message),
-		Error:      errList,
+	r := domain.Error{
+		Response: domain.Response{
+			StatusCode: status,
+			Message:    fmt.Sprintf("[%s] %s", http.StatusText(status), message),
+		},
+		Error: errList,
 	}
 
 	json.NewEncoder(w).Encode(r)
@@ -45,10 +42,12 @@ func (s *base) WriteErrorRespone(w http.ResponseWriter, status int, message stri
 // WriteSuccessRespone writes a JSON error response to the client
 func (s *base) WriteSuccessRespone(w http.ResponseWriter, status int, data interface{}) {
 	w.WriteHeader(status)
-	r := httpResponse{
-		StatusCode: status,
-		Message:    http.StatusText(status),
-		Data:       data,
+	r := domain.Success{
+		Response: domain.Response{
+			StatusCode: status,
+			Message:    http.StatusText(status),
+		},
+		Data: data,
 	}
 
 	json.NewEncoder(w).Encode(r)

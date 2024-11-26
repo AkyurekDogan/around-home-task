@@ -1,6 +1,7 @@
 # Makefile for Go project
 RUN_PATH="./cmd/api/main.go"
 API="cost-api"
+SWAGGER_URL="http://localhost:1989/swagger/index.html"
 
 # Build the Go project
 build: build-clear
@@ -17,7 +18,7 @@ run-docker-compose:
 	docker-compose up
 # Run the Go project
 run:
-	go run $(RUN_PATH)
+	go run $(RUN_PATH) & sleep 2 && open $(SWAGGER_URL)
 
 get-coverage:
 	go test -cover -tags="!exclude_from_coverage" ./...
@@ -35,4 +36,6 @@ get-coverage-output-html:
 document:
 	echo "you can visit to localhost:6060 for auto generated documentation"
 	godoc
-	
+
+init-swag:
+	swag init -g ./cmd/api/main.go -o ./docs/swagger

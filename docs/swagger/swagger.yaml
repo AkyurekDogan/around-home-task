@@ -1,0 +1,164 @@
+basePath: /
+definitions:
+  domain.Error:
+    properties:
+      error: {}
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+  domain.Location:
+    properties:
+      lat:
+        type: number
+      long:
+        type: number
+    type: object
+  domain.Match:
+    properties:
+      distance:
+        $ref: '#/definitions/domain.Measure'
+      location:
+        $ref: '#/definitions/domain.Location'
+      name:
+        type: string
+      partner_id:
+        type: string
+      radius:
+        $ref: '#/definitions/domain.Measure'
+      rank:
+        type: integer
+      rating:
+        $ref: '#/definitions/domain.Rating'
+      skills:
+        items:
+          type: string
+        type: array
+    type: object
+  domain.MatchFilter:
+    properties:
+      location:
+        $ref: '#/definitions/domain.Location'
+      material_type:
+        type: string
+    type: object
+  domain.MatchListResponse:
+    properties:
+      filter:
+        $ref: '#/definitions/domain.MatchFilter'
+      matches:
+        items:
+          $ref: '#/definitions/domain.Match'
+        type: array
+    type: object
+  domain.Measure:
+    properties:
+      metric:
+        type: string
+      value:
+        type: number
+    type: object
+  domain.Partner:
+    properties:
+      id:
+        type: string
+      location:
+        $ref: '#/definitions/domain.Location'
+      name:
+        type: string
+      radius:
+        $ref: '#/definitions/domain.Measure'
+      rating:
+        $ref: '#/definitions/domain.Rating'
+      skills:
+        items:
+          type: string
+        type: array
+    type: object
+  domain.Rating:
+    properties:
+      value_avg:
+        type: integer
+    type: object
+host: localhost:1989
+info:
+  contact:
+    email: akyurek.dogan.dgn@gmail.com
+    name: Dogan Akyurek
+  description: This project provides around home task for requirements with swagger
+    option
+  title: Around Home Task
+  version: "1.0"
+paths:
+  /match:
+    get:
+      consumes:
+      - application/json
+      description: Regarding the customer parameters location and material type, the
+        endpoint returns the matched partners with the
+      parameters:
+      - description: selected material type
+        in: query
+        name: material_type
+        required: true
+        type: string
+      - description: customer location as lattitute
+        in: query
+        name: lat
+        required: true
+        type: string
+      - description: customer location as longtitute
+        in: query
+        name: long
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/domain.MatchListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Error'
+      summary: Returns the matched relevant partners for the customer
+      tags:
+      - match
+  /partner:
+    get:
+      consumes:
+      - application/json
+      description: Regarding the partner id parameter, returns the relevant partner
+        with all details.
+      parameters:
+      - description: patner_id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/domain.Partner'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Error'
+      summary: Returns the partner by partner_id parameter
+      tags:
+      - partner
+swagger: "2.0"

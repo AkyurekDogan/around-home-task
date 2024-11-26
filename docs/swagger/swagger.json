@@ -1,0 +1,245 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This project provides around home task for requirements with swagger option",
+        "title": "Around Home Task",
+        "contact": {
+            "name": "Dogan Akyurek",
+            "email": "akyurek.dogan.dgn@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:1989",
+    "basePath": "/",
+    "paths": {
+        "/match": {
+            "get": {
+                "description": "Regarding the customer parameters location and material type, the endpoint returns the matched partners with the",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "match"
+                ],
+                "summary": "Returns the matched relevant partners for the customer",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "selected material type",
+                        "name": "material_type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "customer location as lattitute",
+                        "name": "lat",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "customer location as longtitute",
+                        "name": "long",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/domain.MatchListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/partner": {
+            "get": {
+                "description": "Regarding the partner id parameter, returns the relevant partner with all details.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "partner"
+                ],
+                "summary": "Returns the partner by partner_id parameter",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "patner_id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Partner"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.Error": {
+            "type": "object",
+            "properties": {
+                "error": {},
+                "message": {
+                    "type": "string"
+                },
+                "status_code": {
+                    "type": "integer"
+                }
+            }
+        },
+        "domain.Location": {
+            "type": "object",
+            "properties": {
+                "lat": {
+                    "type": "number"
+                },
+                "long": {
+                    "type": "number"
+                }
+            }
+        },
+        "domain.Match": {
+            "type": "object",
+            "properties": {
+                "distance": {
+                    "$ref": "#/definitions/domain.Measure"
+                },
+                "location": {
+                    "$ref": "#/definitions/domain.Location"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "partner_id": {
+                    "type": "string"
+                },
+                "radius": {
+                    "$ref": "#/definitions/domain.Measure"
+                },
+                "rank": {
+                    "type": "integer"
+                },
+                "rating": {
+                    "$ref": "#/definitions/domain.Rating"
+                },
+                "skills": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "domain.MatchFilter": {
+            "type": "object",
+            "properties": {
+                "location": {
+                    "$ref": "#/definitions/domain.Location"
+                },
+                "material_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.MatchListResponse": {
+            "type": "object",
+            "properties": {
+                "filter": {
+                    "$ref": "#/definitions/domain.MatchFilter"
+                },
+                "matches": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.Match"
+                    }
+                }
+            }
+        },
+        "domain.Measure": {
+            "type": "object",
+            "properties": {
+                "metric": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                }
+            }
+        },
+        "domain.Partner": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "location": {
+                    "$ref": "#/definitions/domain.Location"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "radius": {
+                    "$ref": "#/definitions/domain.Measure"
+                },
+                "rating": {
+                    "$ref": "#/definitions/domain.Rating"
+                },
+                "skills": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "domain.Rating": {
+            "type": "object",
+            "properties": {
+                "value_avg": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

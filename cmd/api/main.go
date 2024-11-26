@@ -14,6 +14,9 @@ import (
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/middlewares"
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/repository"
 	"github.com/AkyurekDogan/around-home-task/internal/app/service"
+	httpSwagger "github.com/swaggo/http-swagger"
+
+	_ "github.com/AkyurekDogan/around-home-task/docs/swagger" // Import Swagger docs
 
 	"github.com/go-chi/chi"
 	"github.com/joho/godotenv"
@@ -26,6 +29,14 @@ const (
 	//ENV_CNF_PATH config path
 	ENV_CNF_PATH = "CONFIG_PATH"
 )
+
+// @title Around Home Task
+// @version 1.0
+// @description This project provides around home task for requirements with swagger option
+// @contact.name Dogan Akyurek
+// @contact.email akyurek.dogan.dgn@gmail.com
+// @host localhost:1989
+// @BasePath /
 
 // main entry point
 func main() {
@@ -78,8 +89,11 @@ func main() {
 	handlerPartner := handler.NewPartner(srvPartner)
 	// Create a new router
 	r := chi.NewRouter()
+
 	r.Use(middlewares.AddHeaderMiddleware())
 	// Define the endpoints
+	// Swagger UI endpoint
+	r.Get("/swagger/*", httpSwagger.WrapHandler)
 	r.Get("/match", handlerMatch.Get)
 	r.Get("/partner", handlerPartner.Get)
 	// Start the HTTP server

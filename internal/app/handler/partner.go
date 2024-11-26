@@ -28,7 +28,16 @@ func NewPartner(ps service.Partner) Partner {
 	}
 }
 
-// Get returns the cost data
+// @Summary Returns the partner by partner_id parameter
+// @Description Regarding the partner id parameter, returns the relevant partner with all details.
+// @Tags partner
+// @Accept json
+// @Produce json
+// @Param id query string true "patner_id"
+// @Success 200 {object} domain.Partner "Success"
+// @Failure 400 {object} domain.Error "Bad Request"
+// @Failure 500 {object} domain.Error "Internal Server Error"
+// @Router /partner [get]
 func (s *partner) Get(w http.ResponseWriter, r *http.Request) {
 	// get query parameters
 	filter, err := domain.NewFilter(r)

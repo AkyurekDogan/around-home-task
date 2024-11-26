@@ -27,7 +27,19 @@ func NewMatch(ms service.Match) Match {
 	}
 }
 
-// Get returns the match results by filter
+// @Summary Returns the matched relevant partners for the customer
+// @Description Regarding the customer parameters location and material type, the endpoint returns the matched partners with the
+// rating descending and distance ascending orders
+// @Tags match
+// @Accept json
+// @Produce json
+// @Param material_type query string true "selected material type"
+// @Param lat query string true "customer location as lattitute"
+// @Param long query string true "customer location as longtitute"
+// @Success 200 {object} domain.MatchListResponse "Success"
+// @Failure 400 {object} domain.Error "Bad Request"
+// @Failure 500 {object} domain.Error "Internal Server Error"
+// @Router /match [get]
 func (s *match) Get(w http.ResponseWriter, r *http.Request) {
 	// get query parameters
 	filter, err := domain.NewMatchFilter(r)
