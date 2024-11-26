@@ -27,20 +27,20 @@ func NewPartnerSkill(repoPartnerSkill repository.PartnerSkill) PartnerSkill {
 
 // Get returns the relavent partner rating data by filter
 func (s *partnerSkill) Get(filter dto.Filter) (*dto.Skill, error) {
-	eFilter := s.toEntityFilter(filter)
+	eFilter := s.toModel(filter)
 	partnerSkill, err := s.dbPartnerSkill.Get(eFilter)
 	if err != nil {
 		return nil, err
 	}
-	result := s.toDomain(*partnerSkill)
+	result := s.toDTO(*partnerSkill)
 	return &result, nil
 }
 
-func (s *partnerSkill) toDomain(pr model.Skill) dto.Skill {
+func (s *partnerSkill) toDTO(pr model.Skill) dto.Skill {
 	return pr.Skills
 }
 
-func (s *partnerSkill) toEntityFilter(p dto.Filter) model.Filter {
+func (s *partnerSkill) toModel(p dto.Filter) model.Filter {
 	return model.Filter{
 		PartnerId: p.PartnerId,
 	}

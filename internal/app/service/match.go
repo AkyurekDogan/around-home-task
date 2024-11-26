@@ -34,12 +34,12 @@ func NewMatch(db repository.Match) Match {
 
 // Get returns the matching records by customer filter details
 func (s *match) Find(filter dto.MatchFilter) (*dto.MatchListResponse, error) {
-	flt := s.toEntityFilter(filter)
+	flt := s.toModel(filter)
 	data, err := s.dbMatch.Get(flt)
 	if err != nil {
 		return nil, err
 	}
-	domData := s.toDomainMatchList(data)
+	domData := s.toDTOList(data)
 	result := dto.MatchListResponse{
 		Filter:  filter,
 		Matches: domData,
@@ -47,7 +47,7 @@ func (s *match) Find(filter dto.MatchFilter) (*dto.MatchListResponse, error) {
 	return &result, nil
 }
 
-func (s *match) toEntityFilter(filter dto.MatchFilter) model.MatchFilter {
+func (s *match) toModel(filter dto.MatchFilter) model.MatchFilter {
 	return model.MatchFilter{
 		MaterialType: filter.MaterialType,
 		Loc: model.Location{
@@ -57,15 +57,15 @@ func (s *match) toEntityFilter(filter dto.MatchFilter) model.MatchFilter {
 	}
 }
 
-func (s *match) toDomainMatchList(eml model.MatchList) dto.MatchList {
+func (s *match) toDTOList(eml model.MatchList) dto.MatchList {
 	domML := make(dto.MatchList, 0, len(eml))
 	for _, v := range eml {
-		domML = append(domML, s.toDomainMatch(v))
+		domML = append(domML, s.toDTO(v))
 	}
 	return domML
 }
 
-func (s *match) toDomainMatch(m model.Match) dto.Match {
+func (s *match) toDTO(m model.Match) dto.Match {
 	return dto.Match{
 		PartnerId: m.PartnerId,
 		Name:      m.Name,

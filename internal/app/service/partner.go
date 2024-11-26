@@ -40,7 +40,7 @@ func NewPriceService(repoPartner repository.Partner,
 
 // Get returns the relavent partner data
 func (s *partner) Get(filter dto.Filter) (*dto.Partner, error) {
-	eFilter := s.toEntityFilter(filter)
+	eFilter := s.toModel(filter)
 	partner, err := s.dbPartner.Get(eFilter)
 	if err != nil {
 		if errors.Is(err, repository.ErrNoRows) {
@@ -48,7 +48,7 @@ func (s *partner) Get(filter dto.Filter) (*dto.Partner, error) {
 		}
 		return nil, err
 	}
-	result := s.toDomain(partner)
+	result := s.toDTO(partner)
 	err = s.getPartnerSkills(&result, filter)
 	if err != nil {
 		return nil, err
@@ -82,7 +82,7 @@ func (s *partner) getPartnerRating(p *dto.Partner, f dto.Filter) error {
 	p.Rating = rating
 	return nil
 }
-func (s *partner) toDomain(p *model.Partner) dto.Partner {
+func (s *partner) toDTO(p *model.Partner) dto.Partner {
 	return dto.Partner{
 		Id:   p.Id,
 		Name: p.Name,
@@ -97,7 +97,7 @@ func (s *partner) toDomain(p *model.Partner) dto.Partner {
 	}
 }
 
-func (s *partner) toEntityFilter(p dto.Filter) model.Filter {
+func (s *partner) toModel(p dto.Filter) model.Filter {
 	return model.Filter{
 		PartnerId: p.PartnerId,
 	}

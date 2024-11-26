@@ -27,22 +27,22 @@ func NewPartnerRating(repoPartnerRating repository.PartnerRating) PartnerRating 
 
 // Get returns the relavent partner rating data by filter
 func (s *partnerRating) Get(filter dto.Filter) (*dto.Rating, error) {
-	eFilter := s.toEntityFilter(filter)
+	eFilter := s.toModel(filter)
 	partnerRating, err := s.dbPartnerRating.Get(eFilter)
 	if err != nil {
 		return nil, err
 	}
-	result := s.toDomain(*partnerRating)
+	result := s.toDTO(*partnerRating)
 	return &result, nil
 }
 
-func (s *partnerRating) toDomain(pr model.Rating) dto.Rating {
+func (s *partnerRating) toDTO(pr model.Rating) dto.Rating {
 	return dto.Rating{
 		ValueAVG: pr.ValueAVG,
 	}
 }
 
-func (s *partnerRating) toEntityFilter(p dto.Filter) model.Filter {
+func (s *partnerRating) toModel(p dto.Filter) model.Filter {
 	return model.Filter{
 		PartnerId: p.PartnerId,
 	}
