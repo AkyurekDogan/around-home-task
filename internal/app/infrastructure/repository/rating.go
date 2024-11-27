@@ -10,24 +10,24 @@ import (
 	"github.com/AkyurekDogan/around-home-task/internal/app/infrastructure/model"
 )
 
-// PartnerRating represents the repository access layer for partner ratings
-type PartnerRating interface {
+// Rating represents the repository access layer for partner ratings
+type Rating interface {
 	Get(f model.Filter) (*model.Rating, error)
 }
 
-type partnerRating struct {
+type rating struct {
 	driverRead drivers.Driver
 }
 
-// NewPartnerSkill creates new database interface for PartnerSkill
-func NewPartnerRating(driverR drivers.Driver) PartnerRating {
-	return &partnerRating{
+// NewRating creates new database interface for partner rating
+func NewRating(driverR drivers.Driver) Rating {
+	return &rating{
 		driverRead: driverR,
 	}
 }
 
-// Get gets the partner skill data
-func (u *partnerRating) Get(f model.Filter) (*model.Rating, error) {
+// Get gets the partner rating data
+func (u *rating) Get(f model.Filter) (*model.Rating, error) {
 	db, err := u.driverRead.Init()
 	if err != nil {
 		return nil, err

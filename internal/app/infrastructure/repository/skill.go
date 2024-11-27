@@ -11,24 +11,24 @@ import (
 	"github.com/lib/pq"
 )
 
-// PartnerSkill represents the repository access layer for partner
-type PartnerSkill interface {
+// Skill represents the repository access layer for partner
+type Skill interface {
 	Get(f model.Filter) (*model.Skill, error)
 }
 
-type partnerSkill struct {
+type skill struct {
 	driverRead drivers.Driver
 }
 
-// NewPartnerSkill creates new database interface for PartnerSkill
-func NewPartnerSkill(driverR drivers.Driver) PartnerSkill {
-	return &partnerSkill{
+// NewSkill creates new database interface for PartnerSkill
+func NewSkill(driverR drivers.Driver) Skill {
+	return &skill{
 		driverRead: driverR,
 	}
 }
 
 // Get gets the partner skill data
-func (u *partnerSkill) Get(f model.Filter) (*model.Skill, error) {
+func (u *skill) Get(f model.Filter) (*model.Skill, error) {
 	db, err := u.driverRead.Init()
 	if err != nil {
 		return nil, err

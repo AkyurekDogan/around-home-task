@@ -10,23 +10,23 @@ import (
 )
 
 // PartnerSkill interface provides partner skills methods
-type PartnerSkill interface {
+type Skill interface {
 	Get(filter dto.Filter) (*dto.Skill, error)
 }
 
-type partnerSkill struct {
-	dbPartnerSkill repository.PartnerSkill
+type skill struct {
+	dbPartnerSkill repository.Skill
 }
 
-// NewPartnerSkill creates a new partner skills service to access relevant operations
-func NewPartnerSkill(repoPartnerSkill repository.PartnerSkill) PartnerSkill {
-	return &partnerSkill{
+// NewSkill creates a new partner skills service to access relevant operations
+func NewSkill(repoPartnerSkill repository.Skill) Skill {
+	return &skill{
 		dbPartnerSkill: repoPartnerSkill,
 	}
 }
 
-// Get returns the relavent partner rating data by filter
-func (s *partnerSkill) Get(filter dto.Filter) (*dto.Skill, error) {
+// Get returns the relavent partner skill data by filter
+func (s *skill) Get(filter dto.Filter) (*dto.Skill, error) {
 	eFilter := s.toModel(filter)
 	partnerSkill, err := s.dbPartnerSkill.Get(eFilter)
 	if err != nil {
@@ -36,11 +36,11 @@ func (s *partnerSkill) Get(filter dto.Filter) (*dto.Skill, error) {
 	return &result, nil
 }
 
-func (s *partnerSkill) toDTO(pr model.Skill) dto.Skill {
+func (s *skill) toDTO(pr model.Skill) dto.Skill {
 	return pr.Skills
 }
 
-func (s *partnerSkill) toModel(p dto.Filter) model.Filter {
+func (s *skill) toModel(p dto.Filter) model.Filter {
 	return model.Filter{
 		PartnerId: p.PartnerId,
 	}

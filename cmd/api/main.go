@@ -73,15 +73,15 @@ func main() {
 	)
 
 	// initialize repository
-	dbRepoPartnerSkill := repository.NewPartnerSkill(dbDriverRead)
-	dbRepoPartnerRating := repository.NewPartnerRating(dbDriverRead)
+	dbRepoPartnerSkill := repository.NewSkill(dbDriverRead)
+	dbRepoPartnerRating := repository.NewRating(dbDriverRead)
 	dbRepoPartner := repository.NewPartner(dbDriverRead)
 	dbRepoMatch := repository.NewMatch(dbDriverRead)
 
 	// initialize services
-	srvPartnerRating := service.NewPartnerRating(dbRepoPartnerRating)
-	srvPartnerSkill := service.NewPartnerSkill(dbRepoPartnerSkill)
-	srvPartner := service.NewPriceService(dbRepoPartner, srvPartnerSkill, srvPartnerRating)
+	srvPartnerRating := service.NewRating(dbRepoPartnerRating)
+	srvPartnerSkill := service.NewSkill(dbRepoPartnerSkill)
+	srvPartner := service.NewPartner(dbRepoPartner, srvPartnerSkill, srvPartnerRating)
 	matchService := service.NewMatch(dbRepoMatch)
 
 	// handlers

@@ -72,7 +72,7 @@ func TestCostGet(t *testing.T) {
 	defer ctrl.Finish()
 	skillRepositoryMock := mock.NewMockPartnerSkill(ctrl)
 
-	skillService := service.NewPartnerSkill(skillRepositoryMock)
+	skillService := service.NewSkill(skillRepositoryMock)
 
 	for _, v := range skillTestCases {
 		t.Run(v.Name, func(t *testing.T) {

@@ -61,20 +61,20 @@ func prepRatingSetup() {
 				PartnerId: "1x1x1x1x",
 			},
 			DTOResponse: nil,
-			Error:       errors.New("error"),
+			Error:       errors.New("repo-error"),
 		},
 	}
 }
 
 // TestCostGet ...
 func TestRatingGet(t *testing.T) {
-	prepSkillSetup()
+	prepRatingSetup()
 	t.Parallel()
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	ratingRepositoryMock := mock.NewMockPartnerRating(ctrl)
 
-	ratingService := service.NewPartnerRating(ratingRepositoryMock)
+	ratingService := service.NewRating(ratingRepositoryMock)
 
 	for _, v := range ratingTestCases {
 		t.Run(v.Name, func(t *testing.T) {
@@ -83,7 +83,7 @@ func TestRatingGet(t *testing.T) {
 			// Assertions
 			if v.Error == nil {
 				assert.NoError(t, err)
-				assert.Equal(t, &v.DTOResponse, rating)
+				assert.Equal(t, v.DTOResponse, rating)
 			} else {
 				assert.Equal(t, v.Error.Error(), err.Error())
 			}

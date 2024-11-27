@@ -95,10 +95,10 @@ func TestPartnerGet(t *testing.T) {
 	skillRepositoryMock := mock.NewMockPartnerSkill(ctrl)
 	partnerRepositoryMock := mock.NewMockPartner(ctrl)
 
-	ratingService := service.NewPartnerRating(ratingRepositoryMock)
-	skillService := service.NewPartnerSkill(skillRepositoryMock)
+	ratingService := service.NewRating(ratingRepositoryMock)
+	skillService := service.NewSkill(skillRepositoryMock)
 
-	partnerService := service.NewPriceService(partnerRepositoryMock, skillService, ratingService)
+	partnerService := service.NewPartner(partnerRepositoryMock, skillService, ratingService)
 
 	for _, v := range partnerTestCases {
 		t.Run(v.Name, func(t *testing.T) {

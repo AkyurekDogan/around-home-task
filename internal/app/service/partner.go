@@ -21,20 +21,20 @@ type Partner interface {
 }
 
 type partner struct {
-	dbPartner        repository.Partner
-	svcPartnerSkill  PartnerSkill
-	svcPartnerRating PartnerRating
+	dbPartner repository.Partner
+	svcSkill  Skill
+	svcRating Rating
 }
 
-// NewPriceService creates a new price service with following operations: get
-func NewPriceService(repoPartner repository.Partner,
-	partnerSkillService PartnerSkill,
-	partnerRatingService PartnerRating,
+// NewPartner creates a new price service with following operations: get
+func NewPartner(repoPartner repository.Partner,
+	svcSkill Skill,
+	svcRating Rating,
 ) Partner {
 	return &partner{
-		dbPartner:        repoPartner,
-		svcPartnerSkill:  partnerSkillService,
-		svcPartnerRating: partnerRatingService,
+		dbPartner: repoPartner,
+		svcSkill:  svcSkill,
+		svcRating: svcRating,
 	}
 }
 
@@ -61,7 +61,7 @@ func (s *partner) Get(filter dto.Filter) (*dto.Partner, error) {
 }
 
 func (s *partner) getPartnerSkills(p *dto.Partner, f dto.Filter) error {
-	skill, err := s.svcPartnerSkill.Get(f)
+	skill, err := s.svcSkill.Get(f)
 	if err != nil {
 		if !errors.Is(err, repository.ErrNoRows) {
 			return err
@@ -73,7 +73,7 @@ func (s *partner) getPartnerSkills(p *dto.Partner, f dto.Filter) error {
 }
 
 func (s *partner) getPartnerRating(p *dto.Partner, f dto.Filter) error {
-	rating, err := s.svcPartnerRating.Get(f)
+	rating, err := s.svcRating.Get(f)
 	if err != nil {
 		if !errors.Is(err, repository.ErrNoRows) {
 			return err
