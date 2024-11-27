@@ -119,7 +119,7 @@ curl --location 'http://localhost:1989/partner?id=pk12kkk123'
 }
 ```
 
-#### HTTP:POST /match 
+#### HTTP:GET /match 
 
 Example `curl` command 
 
